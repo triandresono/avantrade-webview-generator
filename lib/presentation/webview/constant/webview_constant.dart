@@ -1,11 +1,14 @@
 class WebviewConstant {
   final authCodeUri =
       "https://dev-ava-be.devops.indivaragroup.com/auth-service/authentication/v1/generate-auth-code/b2b2c";
+  // final authCodeUri = "/v1/generate-auth-code/b2b2c";
   final localAuthCodeUri =
       "http://localhost:8080/auth-service/authentication/v1/generate-auth-code/b2b2c";
+  // final localAuthCodeUri = "/v1/generate-auth-code/b2b2c";
 
   final dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
-  final secretKey = "BPI-CLIENT";
+  // final secretKey = "f77b25d4-1c4d-4ef3-bb63-abaebe8f6db0";
+  final secretKey = "F77B25D41C4D4EF3BB63ABAEBE8F6DB0";
   final cifBank = "CIF2531015624";
   final clientId = "c04ee779-1a81-4453-83ea-fd370e9f4cc9";
 

@@ -63,14 +63,19 @@ class WebviewController extends GetxState with _Worker {
       sessionId: data.sessionId,
       branchId: constant.branchId,
       timeStamp: model.timeStamp,
-      body: constant.authCodeBody,
+      body: {
+        "paramType": "CIF_BANK",
+        "paramValue": "CIF2511063896",
+        "partnerChannel": "CH_BPI"
+      },
       secretKeySignature: Util.secretKeySignature(
         httpMethod: "POST",
         endpoint: constant.authCodeUri,
         token: data.accessToken,
         timestamp: model.timeStamp,
-        body: json.encode(constant.authCodeBody),
+        // body: json.encode(constant.authCodeBody),
         clientSecret: constant.secretKey,
+        body: "",
       ),
     );
     response.fold(

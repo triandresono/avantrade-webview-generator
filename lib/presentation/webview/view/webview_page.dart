@@ -54,7 +54,8 @@ class WebviewPage extends GetView<WebviewController> {
                         endpoint: controller.constant.authCodeUri,
                         token: data.accessToken,
                         timestamp: controller.model.timeStamp,
-                        body: json.encode(controller.constant.authCodeBody),
+                        // body: json.encode(controller.constant.authCodeBody),
+                        body: "",
                         clientSecret: controller.constant.secretKey,
                       ),
                     );
@@ -91,7 +92,8 @@ class WebviewPage extends GetView<WebviewController> {
                         endpoint: controller.constant.localAuthCodeUri,
                         token: data.accessToken,
                         timestamp: controller.model.timeStamp,
-                        body: json.encode(controller.constant.authCodeBody),
+                        // body: json.encode(controller.constant.authCodeBody),
+                        body: "",
                         clientSecret: controller.constant.secretKey,
                       ),
                     );

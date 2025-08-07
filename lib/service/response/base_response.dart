@@ -20,6 +20,8 @@ class BaseResponse {
   factory BaseResponse.exception(Object e) {
     if (e is FetchDataException) {
       return BaseResponse(error: e.message);
+    } else if (e is ForbiddenAccessException) {
+      return BaseResponse(error: e.message);
     } else {
       return BaseResponse(error: e.toString());
     }

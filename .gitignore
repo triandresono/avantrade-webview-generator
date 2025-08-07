@@ -1,0 +1,69 @@
+.dart_tool/chrome-device/Default/AutofillStrikeDatabase/LOCK
+.dart_tool/chrome-device/Default/AutofillStrikeDatabase/LOG
+.dart_tool/chrome-device/Default/DIPS
+.dart_tool/chrome-device/Default/Extension Rules/000003.log
+.dart_tool/chrome-device/Default/Extension Rules/CURRENT
+.dart_tool/chrome-device/Default/Extension Rules/LOCK
+.dart_tool/chrome-device/Default/Extension Rules/LOG
+.dart_tool/chrome-device/Default/Extension Rules/MANIFEST-000001
+.dart_tool/chrome-device/Default/Extension Scripts/000003.log
+.dart_tool/chrome-device/Default/Extension Scripts/CURRENT
+.dart_tool/chrome-device/Default/Extension Scripts/LOCK
+.dart_tool/chrome-device/Default/Extension Scripts/LOG
+.dart_tool/chrome-device/Default/Extension Scripts/MANIFEST-000001
+.dart_tool/chrome-device/Default/Favicons
+.dart_tool/chrome-device/Default/Favicons-journal
+.dart_tool/chrome-device/Default/GCM Store/000003.log
+.dart_tool/chrome-device/Default/GCM Store/CURRENT
+.dart_tool/chrome-device/Default/GCM Store/Encryption/000003.log
+.dart_tool/chrome-device/Default/GCM Store/Encryption/CURRENT
+.dart_tool/chrome-device/Default/GCM Store/Encryption/LOCK
+.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG
+.dart_tool/chrome-device/Default/GCM Store/Encryption/MANIFEST-000001
+.dart_tool/chrome-device/Default/GCM Store/LOCK
+.dart_tool/chrome-device/Default/GCM Store/LOG
+.dart_tool/chrome-device/Default/GCM Store/MANIFEST-000001
+.dart_tool/chrome-device/Default/Login Data
+.dart_tool/chrome-device/Default/PersistentOriginTrials/LOCK
+.dart_tool/chrome-device/Default/PersistentOriginTrials/LOG
+.dart_tool/chrome-device/Default/Preferences
+.dart_tool/chrome-device/Default/PreferredApps
+.dart_tool/chrome-device/Default/Reporting and NEL-journal
+.dart_tool/chrome-device/Default/Safe Browsing Cookies-journal
+.dart_tool/chrome-device/Default/ServerCertificate-journal
+.dart_tool/chrome-device/Default/Session Storage/000003.log
+.dart_tool/chrome-device/Default/Session Storage/CURRENT
+.dart_tool/chrome-device/Default/Session Storage/LOCK
+.dart_tool/chrome-device/Default/Session Storage/LOG
+.dart_tool/chrome-device/Default/Session Storage/MANIFEST-000001
+.dart_tool/chrome-device/Default/SharedStorage-wal
+.dart_tool/chrome-device/Default/Shortcuts-journal
+.dart_tool/chrome-device/Default/Site Characteristics Database/000003.log
+.dart_tool/chrome-device/Default/Site Characteristics Database/CURRENT
+.dart_tool/chrome-device/Default/Site Characteristics Database/LOCK
+.dart_tool/chrome-device/Default/Site Characteristics Database/LOG
+.dart_tool/chrome-device/Default/Site Characteristics Database/MANIFEST-000001
+.dart_tool/chrome-device/Default/Web Data
+.dart_tool/chrome-device/Default/WebStorage/QuotaManager
+.dart_tool/chrome-device/Default/WebStorage/QuotaManager-journal
+.dart_tool/chrome-device/Default/chrome_cart_db/LOCK
+.dart_tool/chrome-device/Default/chrome_cart_db/LOG
+.dart_tool/chrome-device/Default/heavy_ad_intervention_opt_out.db
+.dart_tool/chrome-device/Default/heavy_ad_intervention_opt_out.db-journal
+.dart_tool/chrome-device/Default/trusted_vault.pb
+.dart_tool/dartpad/web_plugin_registrant.dart
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
+.dart_tool/version
+build/34dc4c8c3da4b64b14ef01d304aeb437/_composite.stamp
+build/34dc4c8c3da4b64b14ef01d304aeb437/gen_dart_plugin_registrant.stamp
+build/34dc4c8c3da4b64b14ef01d304aeb437/gen_localizations.stamp
+build/574fc2377ef17b67df2769d9e7907272.cache.dill.track.dill
+build/flutter_assets/AssetManifest.bin
+build/flutter_assets/AssetManifest.bin.json
+build/flutter_assets/AssetManifest.json
+build/flutter_assets/FontManifest.json
+build/flutter_assets/NOTICES
+build/flutter_assets/fonts/MaterialIcons-Regular.otf
+build/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+build/flutter_assets/shaders/ink_sparkle.frag
