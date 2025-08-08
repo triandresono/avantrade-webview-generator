@@ -1,6 +1,8 @@
 class WebviewConstant {
   final authCodeUri =
       "https://dev-ava-be.devops.indivaragroup.com/auth-service/authentication/v1/generate-auth-code/b2b2c";
+  final httpAuthCodeUri =
+      "http://dev-ava-be.devops.indivaragroup.com/auth-service/authentication/v1/generate-auth-code/b2b2c";
   // final authCodeUri = "/v1/generate-auth-code/b2b2c";
   final localAuthCodeUri =
       "http://localhost:8080/auth-service/authentication/v1/generate-auth-code/b2b2c";
@@ -18,7 +20,7 @@ class WebviewConstant {
     "partnerChannel": "CH_BPI"
   };
   //TODO: TAKE NOTE WHY WE NEED BRANCH ID
-  final branchId = "BE7C7C7B-5AE7-4068-86E3-4AD1D1F3B30F";
+  // final branchId = "BE7C7C7B-5AE7-4068-86E3-4AD1D1F3B30F";
 
   final privateKey = '''
 -----BEGIN PRIVATE KEY-----

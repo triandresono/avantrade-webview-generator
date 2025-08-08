@@ -2,6 +2,8 @@ import 'package:avantrade_webview_generator/common/either.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_authcode_response.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_b2b2c_response.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_b2b_response.dart';
+import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_generate_view_response.dart';
+import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_validate_token_response.dart';
 import 'package:avantrade_webview_generator/service/dio/dio_util.dart';
 import 'package:avantrade_webview_generator/service/response/base_response.dart';
 
@@ -30,6 +32,14 @@ abstract class WebviewService {
     required String branchId,
     required String timeStamp,
     required Map<String, dynamic> body,
+  });
+
+  Future<Either<BaseResponse, WebviewGenerateViewResponse>> getWebview({
+    required String b2b2cToken,
+  });
+
+  Future<Either<BaseResponse, WebviewValidateTokenResponse>> validateToken({
+    required String webViewToken,
   });
 }
 
@@ -112,6 +122,39 @@ class WebViewServiceImpl implements WebviewService {
         },
       );
       return Right(WebviewB2b2cResponse.fromMap(map));
+    } catch (e) {
+      return Left(BaseResponse.exception(e));
+    }
+  }
+
+  @override
+  Future<Either<BaseResponse, WebviewGenerateViewResponse>> getWebview({
+    required String b2b2cToken,
+  }) async {
+    try {
+      final map = await dio.post(
+        uri: "auth-service/authentication/token/by-b2bc-token",
+        authorization: b2b2cToken,
+        headers: {
+          "authorization-customer": b2b2cToken,
+        },
+      );
+      return Right(WebviewGenerateViewResponse.fromMap(map));
+    } catch (e) {
+      return Left(BaseResponse.exception(e));
+    }
+  }
+
+  @override
+  Future<Either<BaseResponse, WebviewValidateTokenResponse>> validateToken({
+    required String webViewToken,
+  }) async {
+    try {
+      final map = await dio.post(
+        uri: "auth-service/auth/validate-token/b2b2c",
+        authorization: webViewToken,
+      );
+      return Right(WebviewValidateTokenResponse.fromMap(map));
     } catch (e) {
       return Left(BaseResponse.exception(e));
     }

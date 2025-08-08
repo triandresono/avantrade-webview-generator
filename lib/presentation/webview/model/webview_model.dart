@@ -2,13 +2,18 @@ import 'package:avantrade_webview_generator/common/case.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_authcode_response.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_b2b2c_response.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_b2b_response.dart';
+import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_generate_view_response.dart';
+import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_validate_token_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 
 class WebviewModel {
-  final b2bCase = Case<WebviewB2bResponse>().obs;
-  final b2b2cCase = Case<WebviewB2b2cResponse>().obs;
+  final webViewCase = Case<WebviewGenerateViewResponse>().obs;
+  final tokenCase = Case<WebviewValidateTokenResponse>().obs;
   final authCodeCase = Case<WebviewAuthcodeResponse>().obs;
+  final b2b2cCase = Case<WebviewB2b2cResponse>().obs;
+  final b2bCase = Case<WebviewB2bResponse>().obs;
+  var localSecretKeySignature = "";
   var privateKeySignature = "";
   var secretKeySignature = "";
   var timeStamp = "";

@@ -30,15 +30,20 @@ class DioUtil {
     Map<String, String>? param,
     encoding,
   }) async {
-    if (authorization != null) _dio.addToken(authorization);
-    if (headers != null) _dio.addHeader(headers);
+    final Map<String, dynamic> header = {};
+    if (authorization != null) {
+      header.addAll({"Authorization": "Bearer $authorization"});
+    }
+    if (headers != null) {
+      header.addAll(headers);
+    }
     try {
       var res = await _dio.post(
         baseUri + uri,
         data: body,
         queryParameters: param,
+        options: Options(headers: header),
       );
-      // return _handleResponse(res);
       return res.data;
     } on DioException catch (error) {
       return _handleError(error);

@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:avantrade_webview_generator/common/case.dart';
-import 'package:avantrade_webview_generator/common/util.dart';
 import 'package:avantrade_webview_generator/presentation/webview/controller/webview_controller.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_authcode_response.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_b2b2c_response.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_b2b_response.dart';
+import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_generate_view_response.dart';
+import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_validate_token_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
@@ -18,7 +17,7 @@ class WebviewPage extends GetView<WebviewController> {
       appBar: AppBar(
         title: const Text("TEST"),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,12 +25,8 @@ class WebviewPage extends GetView<WebviewController> {
             InkWell(
               onTap: () {
                 controller.model.showDialog(
+                  value: controller.model.privateKeySignature,
                   context: context,
-                  value: Util.privateKeySignature(
-                    clientId: controller.constant.clientId,
-                    timestamp: controller.model.timeStamp,
-                    privateKeyPem: controller.constant.privateKey,
-                  ),
                 );
               },
               child: Container(
@@ -43,21 +38,12 @@ class WebviewPage extends GetView<WebviewController> {
             const SizedBox(height: 30),
             Obx(() {
               final b2bState = controller.model.b2bCase.value;
-              final data = b2bState.data ?? WebviewB2bResponse();
               return InkWell(
                 onTap: () {
                   if (b2bState is LoadedCase) {
                     controller.model.showDialog(
+                      value: controller.model.secretKeySignature,
                       context: context,
-                      value: Util.secretKeySignature(
-                        httpMethod: "POST",
-                        endpoint: controller.constant.authCodeUri,
-                        token: data.accessToken,
-                        timestamp: controller.model.timeStamp,
-                        // body: json.encode(controller.constant.authCodeBody),
-                        body: "",
-                        clientSecret: controller.constant.secretKey,
-                      ),
                     );
                   } else {
                     showDialog(
@@ -81,21 +67,12 @@ class WebviewPage extends GetView<WebviewController> {
             const SizedBox(height: 30),
             Obx(() {
               final b2bState = controller.model.b2bCase.value;
-              final data = b2bState.data ?? WebviewB2bResponse();
               return InkWell(
                 onTap: () {
                   if (b2bState is LoadedCase) {
                     controller.model.showDialog(
+                      value: controller.model.localSecretKeySignature,
                       context: context,
-                      value: Util.secretKeySignature(
-                        httpMethod: "POST",
-                        endpoint: controller.constant.localAuthCodeUri,
-                        token: data.accessToken,
-                        timestamp: controller.model.timeStamp,
-                        // body: json.encode(controller.constant.authCodeBody),
-                        body: "",
-                        clientSecret: controller.constant.secretKey,
-                      ),
                     );
                   } else {
                     showDialog(
@@ -118,130 +95,364 @@ class WebviewPage extends GetView<WebviewController> {
             }),
             const SizedBox(height: 30),
             InkWell(
-              onTap: () => controller.start(),
+              onTap: () => controller.getB2b(),
               child: Container(
                 color: Colors.blueAccent,
                 padding: const EdgeInsets.all(8),
                 child: const Text("Start"),
               ),
             ),
-            Expanded(
-              child: Obx(() {
-                final b2bState = controller.model.b2bCase.value;
-                final authState = controller.model.authCodeCase.value;
-                final b2b2cState = controller.model.b2b2cCase.value;
-                final b2bData = b2bState.data ?? WebviewB2bResponse();
-                final authData = authState.data ?? WebviewAuthcodeResponse();
-                final b2b2cData = b2b2cState.data ?? WebviewB2b2cResponse();
-                if (b2bState is LoadingCase ||
-                    authState is LoadingCase ||
-                    b2b2cState is LoadingCase) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 5),
-                      const Divider(),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          const Text("B2B Access Token"),
-                          const SizedBox(width: 5),
-                          InkWell(
-                            onTap: () {
-                              if (b2bState is LoadedCase) {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text("B2B Response"),
-                                      content: SelectableText(
-                                        json.encode({
-                                          "time": controller.model.timeStamp,
-                                          ...b2bData.toMap(),
-                                        }),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                            child: Container(
-                              color: b2bState is LoadedCase
-                                  ? Colors.amber
-                                  : Colors.grey,
-                              padding: const EdgeInsets.all(8),
-                              child: const Text("Complete Response"),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        color: Colors.grey,
-                        child: Builder(builder: (context) {
-                          if (b2bState is LoadedCase) {
-                            return SelectableText(b2bData.accessToken);
-                          } else if (b2bState is ErrorCase) {
-                            return Text(b2bState.failure.error);
-                          } else {
-                            return const Text("No Data");
-                          }
-                        }),
-                      ),
-                      const SizedBox(height: 15),
-                      const Text("Auth Code"),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        color: Colors.grey,
-                        child: Builder(builder: (context) {
-                          if (authState is LoadedCase) {
-                            return SelectableText(authData.authCode);
-                          } else if (authState is ErrorCase) {
-                            return Text(authState.failure.error);
-                          } else {
-                            return const Text("No Data");
-                          }
-                        }),
-                      ),
-                      const SizedBox(height: 15),
-                      const Text("B2B2C Access Token"),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        color: Colors.grey,
-                        child: Builder(builder: (context) {
-                          if (b2b2cState is LoadedCase) {
-                            return SelectableText(b2b2cData.accessToken);
-                          } else if (b2b2cState is ErrorCase) {
-                            return Text(b2b2cState.failure.error);
-                          } else {
-                            return const Text("No Data");
-                          }
-                        }),
-                      ),
-                    ],
-                  );
-                }
-              }),
-            ),
+            _Body(controller: controller),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final WebviewController controller;
+  const _Body({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 5),
+        const Divider(),
+        const SizedBox(height: 5),
+        Obx(() {
+          final state = controller.model.b2bCase.value;
+          final data = state.data ?? WebviewB2bResponse();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                const Text("B2B Access Token"),
+                const SizedBox(width: 5),
+                Builder(builder: (context) {
+                  if (state is LoadingCase) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return InkWell(
+                      onTap: () {
+                        if (state is LoadedCase) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("B2B Response"),
+                                content: SelectableText(
+                                  data
+                                      .toMap()
+                                      .entries
+                                      .map((e) {
+                                        return "${e.key} : ${e.value}";
+                                      })
+                                      .toList()
+                                      .join("\n"),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        color: state is LoadedCase ? Colors.amber : Colors.grey,
+                        padding: const EdgeInsets.all(8),
+                        child: const Text("Complete Response"),
+                      ),
+                    );
+                  }
+                }),
+              ]),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                color: Colors.grey,
+                child: Builder(builder: (context) {
+                  if (state is LoadedCase) {
+                    return SelectableText(data.accessToken);
+                  } else if (state is ErrorCase) {
+                    return Text(state.failure.error);
+                  } else {
+                    return const Text("No Data");
+                  }
+                }),
+              ),
+            ],
+          );
+        }),
+        const SizedBox(height: 15),
+        Obx(() {
+          final state = controller.model.authCodeCase.value;
+          final data = state.data ?? WebviewAuthcodeResponse();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                const Text("Auth Code"),
+                const SizedBox(width: 5),
+                Builder(builder: (context) {
+                  if (state is LoadingCase) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return InkWell(
+                      onTap: () {
+                        if (state is LoadedCase) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Auth Code Response"),
+                                content: SelectableText(
+                                  data
+                                      .toMap()
+                                      .entries
+                                      .map((e) {
+                                        return "${e.key} : ${e.value}";
+                                      })
+                                      .toList()
+                                      .join("\n"),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        color: state is LoadedCase ? Colors.amber : Colors.grey,
+                        padding: const EdgeInsets.all(8),
+                        child: const Text("Complete Response"),
+                      ),
+                    );
+                  }
+                }),
+              ]),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                color: Colors.grey,
+                child: Builder(builder: (context) {
+                  if (state is LoadedCase) {
+                    return SelectableText(data.authCode);
+                  } else if (state is ErrorCase) {
+                    return Text(state.failure.error);
+                  } else {
+                    return const Text("No Data");
+                  }
+                }),
+              ),
+            ],
+          );
+        }),
+        const SizedBox(height: 15),
+        Obx(() {
+          final state = controller.model.b2b2cCase.value;
+          final data = state.data ?? WebviewB2b2cResponse();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                const Text("B2B2C Access Token"),
+                const SizedBox(width: 5),
+                Builder(builder: (context) {
+                  if (state is LoadingCase) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return InkWell(
+                      onTap: () {
+                        if (state is LoadedCase) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("B2B2C Response"),
+                                content: SelectableText(
+                                  data
+                                      .toMap()
+                                      .entries
+                                      .map((e) {
+                                        return "${e.key} : ${e.value}";
+                                      })
+                                      .toList()
+                                      .join("\n"),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        color: state is LoadedCase ? Colors.amber : Colors.grey,
+                        padding: const EdgeInsets.all(8),
+                        child: const Text("Complete Response"),
+                      ),
+                    );
+                  }
+                }),
+              ]),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                color: Colors.grey,
+                child: Builder(builder: (context) {
+                  if (state is LoadedCase) {
+                    return SelectableText(data.accessToken);
+                  } else if (state is ErrorCase) {
+                    return Text(state.failure.error);
+                  } else {
+                    return const Text("No Data");
+                  }
+                }),
+              ),
+            ],
+          );
+        }),
+        const SizedBox(height: 15),
+        Obx(() {
+          final state = controller.model.webViewCase.value;
+          final data = state.data ?? WebviewGenerateViewResponse();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                const Text("Webview URL"),
+                const SizedBox(width: 5),
+                Builder(builder: (context) {
+                  if (state is LoadingCase) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return InkWell(
+                      onTap: () {
+                        if (state is LoadedCase) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Webview Generate Response"),
+                                content: SelectableText(
+                                  data
+                                      .toMap()
+                                      .entries
+                                      .map((e) {
+                                        return "${e.key} : ${e.value}";
+                                      })
+                                      .toList()
+                                      .join("\n"),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        color: state is LoadedCase ? Colors.amber : Colors.grey,
+                        padding: const EdgeInsets.all(8),
+                        child: const Text("Complete Response"),
+                      ),
+                    );
+                  }
+                }),
+              ]),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                color: Colors.grey,
+                child: Builder(builder: (context) {
+                  if (state is LoadedCase) {
+                    return SelectableText(data.webviewUrl);
+                  } else if (state is ErrorCase) {
+                    return Text(state.failure.error);
+                  } else {
+                    return const Text("No Data");
+                  }
+                }),
+              ),
+            ],
+          );
+        }),
+        const SizedBox(height: 15),
+        Obx(() {
+          final state = controller.model.tokenCase.value;
+          final data = state.data ?? WebviewValidateTokenResponse();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                const Text("Validate Token Email Response"),
+                const SizedBox(width: 5),
+                Builder(builder: (context) {
+                  if (state is LoadingCase) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return InkWell(
+                      onTap: () {
+                        if (state is LoadedCase) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Validate Token Response"),
+                                content: SelectableText(
+                                  data.data
+                                      .toMap()
+                                      .entries
+                                      .map((e) {
+                                        return "${e.key} : ${e.value}";
+                                      })
+                                      .toList()
+                                      .join("\n"),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        color: state is LoadedCase ? Colors.amber : Colors.grey,
+                        padding: const EdgeInsets.all(8),
+                        child: const Text("Complete Response"),
+                      ),
+                    );
+                  }
+                }),
+              ]),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                color: Colors.grey,
+                child: Builder(builder: (context) {
+                  if (state is LoadedCase) {
+                    return SelectableText(data.data.email);
+                  } else if (state is ErrorCase) {
+                    return Text(state.failure.error);
+                  } else {
+                    return const Text("No Data");
+                  }
+                }),
+              ),
+            ],
+          );
+        }),
+        const SizedBox(height: 15),
+      ],
     );
   }
 }
