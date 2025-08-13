@@ -62,7 +62,10 @@ class WebviewController extends GetxState with _Worker {
       timeStamp: model.timeStamp,
       body: {
         "paramType": "CIF_BANK",
-        "paramValue": "CIF2511063896",
+        //DEV
+        // "paramValue": "CIF2511063896",
+        //GAD
+        "paramValue": "CIF2501045138",
         "partnerChannel": "CH_BPI"
       },
     );

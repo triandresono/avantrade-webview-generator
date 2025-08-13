@@ -11,7 +11,8 @@ class DioUtil {
   final _dio = Dio();
   factory DioUtil() => _instance;
   static final DioUtil _instance = DioUtil._internal();
-  final baseUri = "https://dev-ava-be.devops.indivaragroup.com/";
+  // final baseUri = "https://dev-ava-be.devops.indivaragroup.com/";
+  final baseUri = "https://dev-bpi-ava.jatisph.com/api-gateway/";
   // final baseUri = "http://localhost:8080/";
   DioUtil._internal() {
     _dio.options.connectTimeout = const Duration(milliseconds: 90000);

@@ -10,7 +10,7 @@ mixin _Worker {
             final data = state.data ?? WebviewB2bResponse();
             // TODO : GENERATE SECRET SIGNATURE
             controller.model.secretKeySignature = Util.secretKeySignature(
-              endpoint: controller.constant.httpAuthCodeUri,
+              endpoint: controller.constant.authCodeUriGADGateway,
               clientSecret: controller.constant.secretKey,
               timestamp: controller.model.timeStamp,
               token: data.accessToken,

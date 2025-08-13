@@ -1,4 +1,9 @@
 import 'package:avantrade_webview_generator/common/case.dart';
+import 'package:avantrade_webview_generator/presentation/secret_generator/argument/secret_generator_argument.dart';
+import 'package:avantrade_webview_generator/presentation/secret_generator/constant/secret_generator_constant.dart';
+import 'package:avantrade_webview_generator/presentation/secret_generator/controller/secret_generator_controller.dart';
+import 'package:avantrade_webview_generator/presentation/secret_generator/model/secret_generator_model.dart';
+import 'package:avantrade_webview_generator/presentation/secret_generator/view/secret_generator_modal.dart';
 import 'package:avantrade_webview_generator/presentation/webview/controller/webview_controller.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_authcode_response.dart';
 import 'package:avantrade_webview_generator/presentation/webview/service/response/webview_b2b2c_response.dart';
@@ -16,12 +21,45 @@ class WebviewPage extends GetView<WebviewController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("TEST"),
+        actions: [
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return GetBuilder(
+                    init: SecretGeneratorController(
+                      constant: SecretGeneratorConstant(),
+                      model: SecretGeneratorModel(),
+                      argument: SecretGeneratorArgument(
+                        timeStamp: controller.model.timeStamp,
+                      ),
+                    ),
+                    builder: (controller) {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: SecretGeneratorModal(),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+            child: Container(
+              color: Colors.amber,
+              padding: const EdgeInsets.all(8),
+              child: const Text("Customer Secret Generator"),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SelectableText(controller.model.timeStamp),
+            const SizedBox(height: 30),
             InkWell(
               onTap: () {
                 controller.model.showDialog(

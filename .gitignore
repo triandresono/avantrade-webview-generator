@@ -217,5 +217,3 @@ build/flutter_assets/shaders/ink_sparkle.frag
 .dart_tool/chrome-device/Default/shared_proto_db/000005.ldb
 .dart_tool/chrome-device/Default/shared_proto_db/LOG.old
 .dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG.old
-lib/presentation/webview/service/response/webview_generate_view_response.dart
-lib/presentation/webview/service/response/webview_validate_token_response.dart

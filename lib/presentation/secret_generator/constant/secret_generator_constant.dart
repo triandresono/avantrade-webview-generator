@@ -1,19 +1,14 @@
-class WebviewConstant {
+class SecretGeneratorConstant {
   final authCodeUri =
       "https://dev-ava-be.devops.indivaragroup.com/auth-service/authentication/v1/generate-auth-code/b2b2c";
   final httpAuthCodeUri =
       "http://dev-ava-be.devops.indivaragroup.com/auth-service/authentication/v1/generate-auth-code/b2b2c";
-  final authCodeUriGAD =
+  final authCodeGAD =
       "https://dev-bpi-ava.jatisph.com/api-gateway/auth-service/authentication/v1/generate-auth-code/b2b2c";
-  final authCodeUriGADGateway =
-      "https://dev-bpi-ava.jatisph.com:442/auth-service/authentication/v1/generate-auth-code/b2b2c";
   // final authCodeUri = "/v1/generate-auth-code/b2b2c";
   final localAuthCodeUri =
       "http://localhost:8080/auth-service/authentication/v1/generate-auth-code/b2b2c";
   // final localAuthCodeUri = "/v1/generate-auth-code/b2b2c";
-
-  final authCodeUriHttp =
-      "https://dev-bpi-ava.jatisph.com:442/auth-service/authentication/v1/generate-auth-code/b2b2c";
 
   final dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
   // final secretKey = "f77b25d4-1c4d-4ef3-bb63-abaebe8f6db0";
