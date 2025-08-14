@@ -156,6 +156,9 @@ class WebViewServiceImpl implements WebviewService {
       final map = await dio.post(
         uri: "auth-service/auth/validate-token/b2b2c",
         authorization: webViewToken,
+        headers: {
+          "authorization-customer": webViewToken,
+        },
       );
       return Right(WebviewValidateTokenResponse.fromMap(map));
     } catch (e) {
